@@ -79,35 +79,38 @@
         <ul id="chat_history"></ul>
     </div>
     <script>
-        async function sendMessage() {
-            const userInput = document.getElementById("user_input");
-            const responseDiv = document.getElementById("response");
-            const chatHistory = document.getElementById("chat_history");
+      document.getElementById("chat_form").addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-            const content = userInput.value;
-            userInput.value = "";
+        const userInput = document.getElementById("user_input");
+        const responseDiv = document.getElementById("response");
+        const chatHistory = document.getElementById("chat_history");
 
-            if (content) {
-                const userMessage = document.createElement("li");
-                userMessage.textContent = ">>> User: " + content;
-                chatHistory.appendChild(userMessage);
+        const content = userInput.value;
+        userInput.value = "";
 
-                const response = await fetch("/chat", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ content })
-                });
+        if (content) {
+          const userMessage = document.createElement("li");
+          userMessage.textContent = ">>> User: " + content;
+          chatHistory.appendChild(userMessage);
 
-                const jsonResponse = await response.json();
-                const assistantMessage = document.createElement("li");
-                assistantMessage.textContent = ">>> MathieuGPT: " + jsonResponse.response;
-                chatHistory.appendChild(assistantMessage);
+          const response = await fetch("/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content }),
+          });
 
-                responseDiv.textContent = ">>> MathieuGPT: " + jsonResponse.response;
-            }
+          const jsonResponse = await response.json();
+          const assistantMessage = document.createElement("li");
+          assistantMessage.textContent = ">>> MathieuGPT: " + jsonResponse.response;
+          chatHistory.appendChild(assistantMessage);
+
+          responseDiv.textContent = ">>> MathieuGPT: " + jsonResponse.response;
         }
-    </script>
+      });
+    </script
+
 </body>
 </html>
