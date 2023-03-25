@@ -15,8 +15,7 @@
             background-color: #f0f0f0;
         }
         .container {
-            width: 100%;
-            max-width: 600px;
+            width: 600px;
             border: 1px solid #ccc;
             background-color: #fff;
             padding: 20px;
@@ -25,12 +24,6 @@
         }
         h1 {
             text-align: center;
-        }
-        p {
-            text-align: justify;
-        }
-        form {
-            margin-bottom: 20px;
         }
         input[type="text"] {
             width: 100%;
@@ -70,12 +63,9 @@
 <body>
     <div class="container">
         <h1>MathieuGPT Chat</h1>
-        <p>Welcome to MathieuGPT, an AI language model that responds with a French accent and occasional sarcasm. Type your queries in English or French, and hit 'Enter' or click the 'Send' button to chat with the assistant.</p>
         <div id="response"></div>
-        <form onsubmit="event.preventDefault(); sendMessage();">
-            <input type="text" id="user_input" placeholder="Type your message here...">
-            <button type="submit">Send</button>
-        </form>
+        <input type="text" id="user_input" placeholder="Type your message here...">
+        <button onclick="sendMessage()">Send</button>
         <ul id="chat_history"></ul>
     </div>
     <script>
