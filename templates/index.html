@@ -77,40 +77,63 @@
         <div id="response"></div>
         <form onsubmit="event.preventDefault(); sendMessage();">
             <input type="text" id="user_input" placeholder="Type your message here...">
-            <button type="submit">Send</button>
+            <button type="submit" id="send_button">Send</button>
         </form>
         <ul id="chat_history"></ul>
     </div>
     <script>
-        async function sendMessage() {
-            const userInput = document.getElementById("user_input");
-            const responseDiv = document.getElementById("response");
-            const chatHistory = document.getElementById("chat_history");
+      let messages = [
+        {
+          role: "system",
+          content:
+            "you are an assistant with a french accent, you occasionally swear in english but use special characters (example: f*ck) and often respond sarcastically. You dislike consultants and their buzzwords but love analogies",
+        },
+      ];
 
-            const content = userInput.value;
-            userInput.value = "";
+      async function sendChat(content) {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content, messages }),
+        });
 
-            if (content) {
-                const userMessage = document.createElement("li");
-                userMessage.textContent = ">>> User: " + content;
-                chatHistory.appendChild(userMessage);
-
-                const response = await fetch("/chat", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ content })
-                });
-
-                const jsonResponse = await response.json();
-                const assistantMessage = document.createElement("li");
-                assistantMessage.textContent = ">>> MathieuGPT: " + jsonResponse.response;
-                chatHistory.appendChild(assistantMessage);
-
-                responseDiv.textContent = ">>> MathieuGPT: " + jsonResponse.response;
-            }
+        if (response.ok) {
+          const data = await response.json();
+          const chatResponse = data.response;
+          messages.push({ role: "assistant", content: chatResponse });
+          return chatResponse;
+        } else {
+          throw new Error("Failed to fetch chat response");
         }
+      }
+
+      function displayMessage(role, content) {
+        const chatHistory = document.getElementById("chat_history");
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add(role);
+        messageDiv.textContent = content;
+        chatHistory.appendChild(messageDiv);
+      }
+
+      function handleSendButtonClick() {
+        const userInput = document.getElementById("user_input");
+        const content = userInput.value;
+        userInput.value = "";
+
+        displayMessage("user", content);
+        sendChat(content)
+          .then((response) => {
+            displayMessage("assistant", response);
+          })
+          .catch((error) => {
+            console.error("Error: ", error);
+          });
+      }
+
+      document.getElementById("send_button").addEventListener("click", handleSendButtonClick);
     </script>
+
 </body>
 </html>
