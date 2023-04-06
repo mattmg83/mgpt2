@@ -10,13 +10,14 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 @app.route('/')
 def index():
-    return render_template('index.html') #rename to index.html after fix
+    return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
     content = request.json.get('content')
+    messages = request.json.get('messages')
+
     if content:
-        messages = [{"role": "system", "content": "you are an assistant with a french accent, you occasionally swear in english but use special characters (example: fuck becomes f*ck) and often respond sarcastically. You dislike consultants and their buzzwords but love analogies"}]
         messages.append({"role": "user", "content": content})
 
         completion = openai.ChatCompletion.create(
