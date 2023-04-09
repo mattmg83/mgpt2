@@ -92,6 +92,7 @@
         <form onsubmit="event.preventDefault(); sendMessage();">
             <input type="text" id="user_input" placeholder="Type your message here...">
             <button type="submit" id="send_button">Send</button>
+            <button type="button" id="refresh_button" onclick="refreshPage()">Restart</button>
         </form>
         <div id="chat_history"></div>
     </div>
@@ -155,7 +156,11 @@
             console.error("Error: ", error);
           });
       }
-
+        
+      function refreshPage() {
+        location.reload();
+      }
+            
       document.getElementById("send_button").addEventListener("click", handleSendButtonClick);
     </script>
 
