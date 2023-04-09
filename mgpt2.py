@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
-print('Welcome to MathieuGPT, you\'ll need an OpenAI API key (https://platform.openai.com)\nThis script requires python 3.x and the openai package to run\nWrite your queries in English or French and input \'exit\' at any point to exit and return to the terminal')
 openai.organization = "org-vNip1LEkzDa2rbFClEkXncDz"
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
