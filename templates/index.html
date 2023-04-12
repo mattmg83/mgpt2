@@ -86,13 +86,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>MathieuGPT Chat v2</h1>
+        <h1>MathieuGPT v2</h1>
         <p>Welcome to MathieuGPT, an AI language model that responds with a French accent and occasional sarcasm. The chatbot can keep track of context and answer follow up questions to earlier prompts. To start a new chat entirely, refresh the page</p>
         <div id="response"></div>
         <form onsubmit="event.preventDefault(); sendMessage();">
             <input type="text" id="user_input" placeholder="Type your message here...">
             <button type="submit" id="send_button">Send</button>
-            <button type="button" id="refresh_button" onclick="refreshPage()">Restart</button>
+            <button type="button" id="refresh_button" onclick="refreshPage()">New Chat</button>
         </form>
         <div id="chat_history"></div>
     </div>
